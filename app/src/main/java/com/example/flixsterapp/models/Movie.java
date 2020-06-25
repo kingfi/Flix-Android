@@ -15,12 +15,14 @@ public class Movie {
     String title;
     String overview;
     String backdropPath;
+    Double voteAverage;
 
     public Movie (JSONObject jsonObject) throws JSONException {
         posterPath = jsonObject.getString("poster_path");
         title = jsonObject.getString("title");
         overview = jsonObject.getString("overview");
         backdropPath = jsonObject.getString("backdrop_path");
+        voteAverage = jsonObject.getDouble("vote_average");
     }
 
     // no-arg, empty constructor required for Parceler
@@ -50,5 +52,9 @@ public class Movie {
 
     public String getBackdropPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", backdropPath);
+    }
+
+    public Double getVoteAverage() {
+        return voteAverage;
     }
 }
