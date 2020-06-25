@@ -3,10 +3,12 @@ package com.example.flixsterapp.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel // annotation indicates class is Parcelable
 public class Movie {
 
     String posterPath;
@@ -20,6 +22,9 @@ public class Movie {
         overview = jsonObject.getString("overview");
         backdropPath = jsonObject.getString("backdrop_path");
     }
+
+    // no-arg, empty constructor required for Parceler
+    public Movie() {}
 
     public static List<Movie> fromJsonArray(JSONArray movieJSonarray) throws JSONException {
         List<Movie> movies = new ArrayList<>();
