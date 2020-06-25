@@ -38,23 +38,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popularitytxt" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@+id/popularitytxt"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
     <TextView
         android:id="@+id/popularitytxt"
-        android:layout_width="76dp"
+        android:layout_width="200dp"
         android:layout_height="21dp"
         android:layout_marginStart="16dp"
-        android:text="Popularity: "
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/rbVoteAverage"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        tools:text="Popularity:" />
 
     <TextView
         android:id="@+id/ratingTxt"
