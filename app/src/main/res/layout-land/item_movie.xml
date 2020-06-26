@@ -19,6 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivPoster"
@@ -30,10 +31,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:ellipsize="end"
+        android:maxLines="8"
+        android:textColor="#FFFEFE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivPoster"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        android:maxLines="8"
-        android:ellipsize="end"
         tools:text="A spinoff of the fate of the furious, focusing on johnsond us demolacti sefrj;kls luke fhobbaforiming ab ublkujeks ualicneDeacka" />
 </androidx.constraintlayout.widget.ConstraintLayout>

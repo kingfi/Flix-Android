@@ -3,13 +3,20 @@ package com.example.flixsterapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -21,14 +28,23 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+import static android.R.color.black;
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
     Context context;
     List<Movie> movies;
+    int backgroundCol;
+    int txtColor;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
+
+    public MovieAdapter(Context context, List<Movie> movies, int backgroundCol, int txtColor) {
         this.context = context;
         this.movies = movies;
+        this.backgroundCol = backgroundCol;
+        this.txtColor = txtColor;
     }
 
     //Usually involves inflating a layout from XML and returning the holder
@@ -70,12 +86,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             ivPoster = itemView.findViewById(R.id.ivPoster);
             itemView.setOnClickListener(this);
 
+
         }
 
 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
+            tvTitle.setTextColor(txtColor);
+
             tvOverview.setText(movie.getOverview());
+            tvOverview.setTextColor(txtColor);
             String imageUrl;
             int placeholder;
             //if phone is in landscape, set imageUrl = back drop image
@@ -89,7 +109,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             }
 
 
-            Glide.with(context).load(imageUrl).placeholder(placeholder).fitCenter().into(ivPoster);
+            int radius = 30; // corner radius, higher value = more rounded
+            int margin = 10; // crop margin, set to 0 for corners with no crop
+            Glide.with(context).load(imageUrl)
+                               .placeholder(placeholder)
+                               .fitCenter()
+                               .transform(new RoundedCornersTransformation(radius, margin))
+                               .into(ivPoster);
         }
 
         @Override
