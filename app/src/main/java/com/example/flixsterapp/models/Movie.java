@@ -17,6 +17,7 @@ public class Movie {
     String backdropPath;
     Double voteAverage;
     Double popularity;
+    int backgroundCol;
 
     public Movie (JSONObject jsonObject) throws JSONException {
         posterPath = jsonObject.getString("poster_path");

@@ -1,6 +1,7 @@
 package com.example.flixsterapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +22,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
     TextView tvTitle;
     TextView tvOverview;
     TextView popularity;
+    TextView ratingTxt;
     RatingBar rbVoteAverage;
     ImageView moviePoster;
-
-
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +36,28 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvOverview = (TextView) findViewById(R.id.tvOverview);
         rbVoteAverage = (RatingBar) findViewById(R.id.rbVoteAverage);
         popularity = (TextView) findViewById(R.id.popularitytxt);
+        ratingTxt = (TextView) findViewById(R.id.ratingTxt);
         moviePoster = (ImageView) findViewById(R.id.moviePoster);
+        constraintLayout = findViewById(R.id.conDetailsLayout);
 
         // unwrap the movie passed in via intent, using its simple name as a key
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         Log.d("MovieDetailsActivity", String.format("Showing details for '%s'", movie.getTitle()));
 
-        // set the title and overview
+        // get colors
+        int backgroundCol = getIntent().getIntExtra("backgroundCol", 0);
+        int txtCol = getIntent().getIntExtra("txtColor", 0);
+
+        // set the title, overview, and background color
         tvTitle.setText(movie.getTitle());
+        tvTitle.setTextColor(txtCol);
         tvOverview.setText(movie.getOverview());
+        tvOverview.setTextColor(txtCol);
         popularity.setText(String.format("Popularity: %f", movie.getPopularity()));
+        popularity.setTextColor(txtCol);
+        ratingTxt.setTextColor(txtCol);
+        constraintLayout.setBackgroundColor(getResources().getColor(backgroundCol));
+
 
         // set image to backdrop image
         String imageURL = movie.getBackdropPath();
