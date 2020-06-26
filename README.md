@@ -25,8 +25,8 @@ The following **stretch** features are implemented:
 The following **additional** features are implemented:
 
 * [X] List anything else that you can get done to improve the app functionality!
-      * [X] Added a dark mode/light mode toggle switch to change colors of screen and text
-      * [X] Created a custom toolbar
+  * [X] Added a dark mode/light mode toggle switch to change colors of screen and text
+  * [X] Created a custom toolbar
 
 ## Video Walkthrough
 
