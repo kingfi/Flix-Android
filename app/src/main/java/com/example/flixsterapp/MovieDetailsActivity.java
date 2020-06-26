@@ -45,8 +45,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Log.d("MovieDetailsActivity", String.format("Showing details for '%s'", movie.getTitle()));
 
         // get colors
-        int backgroundCol = getIntent().getIntExtra("backgroundCol", 0);
-        int txtCol = getIntent().getIntExtra("txtColor", 0);
+        int backgroundCol = getIntent().getIntExtra("backgroundCol", getResources().getColor(R.color.black));
+        int txtCol = getIntent().getIntExtra("txtColor", getResources().getColor(R.color.white));
 
         // set the title, overview, and background color
         tvTitle.setText(movie.getTitle());

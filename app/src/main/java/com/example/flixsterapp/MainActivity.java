@@ -29,7 +29,7 @@ import java.util.List;
 import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=566c61f7c87655018b6ff91b149a463c";
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
 
-
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
@@ -112,9 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG, "Results: " + results.toString());
-                    movies.addAll(Movie.fromJsonArray(results));
-                    movieAdapter.notifyDataSetChanged();
+                    if (movies.size() == 0) {
+                        movies.addAll(Movie.fromJsonArray(results));
+                        movieAdapter.notifyDataSetChanged();
+                    }
                     Log.i(TAG, "Movies: " + movies.size());
+
 
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
