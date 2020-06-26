@@ -36,6 +36,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     RatingBar rbVoteAverage;
     ImageView moviePoster;
     ConstraintLayout constraintLayout;
+    TextView trailerTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
         ratingTxt = (TextView) findViewById(R.id.ratingTxt);
         moviePoster = (ImageView) findViewById(R.id.moviePoster);
         constraintLayout = findViewById(R.id.conDetailsLayout);
+        trailerTxt = findViewById(R.id.textView);
+
+        trailerTxt.setAlpha(1);
 
         // unwrap the movie passed in via intent, using its simple name as a key
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         Log.d("MovieDetailsActivity", String.format("Showing details for '%s'", movie.getTitle()));
 
         // get colors
-        int backgroundCol = getIntent().getIntExtra("backgroundCol", getResources().getColor(R.color.black));
+        String backgroundCol = getIntent().getStringExtra("backgroundCol");
         int txtCol = getIntent().getIntExtra("txtColor", getResources().getColor(R.color.white));
 
 
@@ -67,6 +71,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 JSONObject jsonObject = json.jsonObject;
+                trailerTxt.setAlpha(1);
 
                 try{
                     final String ytKey = jsonObject.getJSONArray("results").getJSONObject(0).getString("key");
@@ -97,11 +102,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvTitle.setTextColor(txtCol);
         tvOverview.setText(movie.getOverview());
         tvOverview.setTextColor(txtCol);
+        trailerTxt.setTextColor(txtCol);
         popularity.setText(String.format("Popularity: %f", movie.getPopularity()));
         popularity.setTextColor(txtCol);
         ratingTxt.setTextColor(txtCol);
 
-        constraintLayout.setBackgroundColor(getResources().getColor(R.color.black));
+        if (backgroundCol.equals("black")){
+            constraintLayout.setBackgroundColor(getResources().getColor(R.color.black));
+        } else{
+            constraintLayout.setBackgroundColor(getResources().getColor(R.color.white));
+        }
+
 
 
         // set image to backdrop image
