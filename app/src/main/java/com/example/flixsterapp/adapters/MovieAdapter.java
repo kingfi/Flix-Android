@@ -36,11 +36,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
     Context context;
     List<Movie> movies;
-    int backgroundCol;
+    String backgroundCol;
     int txtColor;
 
 
-    public MovieAdapter(Context context, List<Movie> movies, int backgroundCol, int txtColor) {
+    public MovieAdapter(Context context, List<Movie> movies, String backgroundCol, int txtColor) {
         this.context = context;
         this.movies = movies;
         this.backgroundCol = backgroundCol;

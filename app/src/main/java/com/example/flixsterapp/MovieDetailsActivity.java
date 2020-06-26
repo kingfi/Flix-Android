@@ -3,17 +3,27 @@ package com.example.flixsterapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixsterapp.models.Movie;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
+
+import okhttp3.Headers;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -48,6 +58,40 @@ public class MovieDetailsActivity extends AppCompatActivity {
         int backgroundCol = getIntent().getIntExtra("backgroundCol", getResources().getColor(R.color.black));
         int txtCol = getIntent().getIntExtra("txtColor", getResources().getColor(R.color.white));
 
+
+
+        // Connect to Youtube API and move to MovieTrailerActivity Page
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get("https://api.themoviedb.org/3/movie/" + movie.getId()+ "/videos?api_key=566c61f7c87655018b6ff91b149a463c", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                JSONObject jsonObject = json.jsonObject;
+
+                try{
+                    final String ytKey = jsonObject.getJSONArray("results").getJSONObject(0).getString("key");
+                    moviePoster.setOnClickListener(new View.OnClickListener(){
+
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(MovieDetailsActivity.this , MovieTrailerActivity.class);
+                            i.putExtra("youtubekey", ytKey);
+                            startActivity(i);
+                        }
+                    });
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+            }
+        });
+
+
+
         // set the title, overview, and background color
         tvTitle.setText(movie.getTitle());
         tvTitle.setTextColor(txtCol);
@@ -56,7 +100,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         popularity.setText(String.format("Popularity: %f", movie.getPopularity()));
         popularity.setTextColor(txtCol);
         ratingTxt.setTextColor(txtCol);
-        constraintLayout.setBackgroundColor(getResources().getColor(backgroundCol));
+
+        constraintLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
 
         // set image to backdrop image

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -29,13 +30,14 @@ import java.util.List;
 import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=566c61f7c87655018b6ff91b149a463c";
+
+    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
     Switch darkModeSwitch;
     ConstraintLayout conLayout;
-    int backgroundCol;
+    String backgroundCol;
     int txtColor;
     RecyclerView rvMovies;
 
@@ -45,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         conLayout = findViewById(R.id.conLayout);
-        ColorDrawable viewColor = (ColorDrawable) conLayout.getBackground();
-        backgroundCol = viewColor.getColor();
+        backgroundCol = "black";
         txtColor = getResources().getColor(R.color.white);
 
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
+        // create and display recycler view
         adapt(txtColor);
 
         // Set up switch
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     // The toggle is enabled
                     // Light Mode
                     conLayout.setBackgroundColor(getResources().getColor(R.color.white));
-                    backgroundCol = R.color.white;
+                    backgroundCol = "white";
                     txtColor = getResources().getColor(R.color.black);
                     adapt(txtColor);
                     Log.i(TAG, Integer.toString(txtColor));
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     // The toggle is disabled
                     //Dark Mode
                     conLayout.setBackgroundColor(getResources().getColor(R.color.black));
-                    backgroundCol = R.color.black;
+                    backgroundCol = "black";
                     txtColor = getResources().getColor(R.color.white);
                     adapt(txtColor);
                 }
@@ -89,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Function to set up the Recycler View
     public void adapt (int txtColor){
+        Toast.makeText(this,"ADAPT",Toast.LENGTH_SHORT).show();
         // Create the adapter
         final MovieAdapter movieAdapter = new MovieAdapter(this, movies, backgroundCol, txtColor);
 
@@ -101,9 +105,10 @@ public class MainActivity extends AppCompatActivity {
         //Set a layout manager on the recycler view
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
+        String url = NOW_PLAYING_URL + getString(R.string.tmdbNowPlayingAPIKey);
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
+        client.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
